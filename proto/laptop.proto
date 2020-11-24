@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package pb;
+option go_package = "github.com/gRPC/pb";
+
+import "cpu.proto";
+import "storage.proto";
+import "memory.proto";
+import "google/protobuf/timestamp.proto";
+
+message Laptop {
+    string id = 1;
+    string brand = 2;
+    string name = 3;
+    CPU cpu = 4;
+    Memory ram = 5;
+    repeated GPU gpus = 6;
+    repeated Storage storages = 7;
+    oneof weight {
+        double weight_kg = 8;
+        double weight_lb = 9;
+    }
+    google.protobuf.Timestamp updated_at = 10;
+}
