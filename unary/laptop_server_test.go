@@ -10,6 +10,7 @@ import (
 	unary_service "github.com/gRPC/unary"
 	"github.com/stretchr/testify/require"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 func TestLaptopServer(t *testing.T) {
@@ -21,7 +22,7 @@ func TestLaptopServer(t *testing.T) {
 	laptopWithNoId.Id = ""
 
 	laptopWithInvalidID := sample.NewLaptop()
-	laptopWithNoId.Id = "abcd"
+	laptopWithInvalidID.Id = "invalid-uuid"
 
 	duplicateLaptop := sample.NewLaptop()
 	inMemoryStorage := store.NewInMemoryLaptopStore()
@@ -57,7 +58,7 @@ func TestLaptopServer(t *testing.T) {
 		{
 			name:   "error_not_unique_uuid_id",
 			laptop: duplicateLaptop,
-			store:  store.NewInMemoryLaptopStore(),
+			store:  inMemoryStorage,
 			code:   codes.AlreadyExists,
 		},
 	}
@@ -74,9 +75,18 @@ func TestLaptopServer(t *testing.T) {
 			server := unary_service.NewServer(tc.store)
 			res, err := server.CreateLaptop(context.Background(), &req)
 			if tc.code == codes.OK {
-				require.Nil(err)
+				require.NoError(t, err)
+				require.NotNil(t, res)
+				require.NotEmpty(t, res.GetId())
+				if len(res.GetId()) > 0 {
+					require.Equal(t, tc.laptop.Id, res.GetId())
+				}
 			} else {
-
+				require.Error(t, err)
+				require.Nil(t, res)
+				st, ok := status.FromError(err)
+				require.True(t, ok)
+				require.Equal(t, tc.code, st.Code())
 			}
 		})
 	}

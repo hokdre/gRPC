@@ -12,18 +12,18 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-type laptopServiceServer struct {
-	store store.LaptopStore
+type LaptopServiceServer struct {
+	Store store.LaptopStore
 	pb.UnimplementedLaptopServiceServer
 }
 
-func NewServer(store store.LaptopStore) pb.LaptopServiceServer {
-	return &laptopServiceServer{
-		store: store,
+func NewServer(store store.LaptopStore) *LaptopServiceServer {
+	return &LaptopServiceServer{
+		Store: store,
 	}
 }
 
-func (service *laptopServiceServer) CreateLaptop(
+func (service *LaptopServiceServer) CreateLaptop(
 	ctx context.Context,
 	req *pb.CreateLaptopRequest,
 ) (*pb.CreateLaptopResponse, error) {
@@ -40,7 +40,7 @@ func (service *laptopServiceServer) CreateLaptop(
 		laptop.Id = id.String()
 	}
 
-	if err := service.store.Save(laptop); err != nil {
+	if err := service.Store.Save(laptop); err != nil {
 		code := codes.Internal
 		if errors.Is(err, store.ErrConflict) {
 			code = codes.AlreadyExists
@@ -53,5 +53,6 @@ func (service *laptopServiceServer) CreateLaptop(
 	response := &pb.CreateLaptopResponse{
 		Id: laptop.Id,
 	}
+
 	return response, nil
 }
