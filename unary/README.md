@@ -1,5 +1,20 @@
 # Objective <br />
-1. Create Server 
+# Define a service
+1. Define Proto File
+   ```
+   message DataInputan {
+       fieldsDataInputan
+   }
+   message DataOuput {
+       fieldsDataOuput
+   }
+
+   service NamaService {
+       rpc NamaFunction(DataInputan) returns (DataOuput) {};
+   }
+   ```
+
+2. Create Server 
    1. Buat Instance Object Server Sesuai dengan contract Interface Service Server
         ```
         type Server struct {
@@ -33,7 +48,7 @@
       err := grpcServer.Serve(listener)
       ``` 
     
-2. Create Client : **Client Harus Tahu Address Server**.
+3. Create Client : **Client Harus Tahu Address Server**.
    1. Buat Connection Dengan Server
       ```
       serverAddress := "0.0.0.0:8080"
@@ -44,7 +59,7 @@
       package_hasil_compile_service.New<NamaService>Client(conn)
       ``` 
 
-3. Komunikasi Client - Server
+4. Komunikasi Client - Server
    | Client | Server |
    | -------| ------ |
    | client.Contract(ctx, input) |  //return grpc status as error return output , status.Errorf(code, .... ) |

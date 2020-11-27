@@ -16,30 +16,6 @@ protoc -I=. --go_out=<destination dir message> --go_opt=paths=source_relative  -
 > google.golang.org/grpc/cmd/protoc-gen-go-grpc untuk mengkompile service <br />
 > --go_out=<destination dir> --go_opt=paths=source_relative konfigurasi message <br />
 > --go-grpc_out=<destination dir services> --go-grpc_opt=paths=source_relative konfigurasi service <br />
-# Define a service
-1. Buat Proto file service yang mendefinisikan service. contoh : laptop_service.proto
-   ```
-   message DataInputan {
-       fieldsDataInputan
-   }
-   message DataOuput {
-       fieldsDataOuput
-   }
-
-   service NamaService {
-       rpc NamaFunction(DataInputan) returns (DataOuput) {};
-   }
-   ```
-2. compile file proto 
-3. setelah dicompile kita akan mendapatakan fungsionalitas :
-   1. object DataInputan <br />
-      object data inputan memiliki beberapa method, tetapi yang paling umum adalah method untuk mengakses field properti. seperti GetName(), GetAge() 
-   2. object DataOuput <br />
-      object data ouputan memiliki beberapa method, tetapi yang paling umum adalah method untuk mengakses field properti. seperti GetName(), GetAge()  
-   3. object Service <br />
-      akan dihasilkan 2 interface dengan method yang sama sesuai yang diskemakan pada file proto, yaitu :
-      1.  serviceClient
-      2.  serviceServer
 
 # Reference 
 https://github.com/grpc
