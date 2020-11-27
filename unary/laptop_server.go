@@ -28,6 +28,8 @@ func (service *LaptopServiceServer) CreateLaptop(
 	req *pb.CreateLaptopRequest,
 ) (*pb.CreateLaptopResponse, error) {
 	laptop := req.GetLaptop()
+	log.Printf("receive request create laptop with id : %s \n", laptop.Id)
+
 	if laptop.Id != "" {
 		if _, err := uuid.Parse(laptop.Id); err != nil {
 			return nil, status.Errorf(codes.InvalidArgument, "cannot parsed new id for laptop: %v", err)

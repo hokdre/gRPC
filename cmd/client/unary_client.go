@@ -29,8 +29,10 @@ func main() {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
+	laptop := sample.NewLaptop()
+	laptop.Id = "invalid-uuid"
 	req := &pb.CreateLaptopRequest{
-		Laptop: sample.NewLaptop(),
+		Laptop: laptop,
 	}
 	res, err := client.CreateLaptop(ctx, req)
 	if err != nil {
@@ -40,6 +42,7 @@ func main() {
 		} else {
 			log.Fatalf("cannot create laptop : %s", err)
 		}
+		return
 	}
 
 	log.Printf("success create laptop with id : %s", res.GetId())
