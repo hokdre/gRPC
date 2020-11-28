@@ -21,7 +21,7 @@ protoc -I=. --go_out=<destination dir message> --go_opt=paths=source_relative  -
 | Type | Proto | Client | Server |
 |------|------- | ----- | ------ |
 | Unary | rpc NamaMethod(Input) (Output) {}; | NamaMethod(ctx,*Input, ...) (Output, error) | NamaMethod(ctx,*Input, ...) (Output, error) |
-| Client Stream | rpc NamaMethod(Input) (stream Output) {}; | NamaMethod(ctx, *Input, ...) (StreamClient, error) | NamaMethod(*Input, StreamServer) error |
+| Server Stream | rpc NamaMethod(Input) (stream Output) {}; | NamaMethod(ctx, *Input, ...) (StreamClient, error) | NamaMethod(*Input, StreamServer) error |
 <br />
 
 ## What's Stream? <br />
