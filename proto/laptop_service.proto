@@ -4,6 +4,7 @@ package pb;
 option go_package = "github.com/gRPC/pb";
 
 import "laptop.proto";
+import "filter.proto";
 
 message CreateLaptopRequest {
    Laptop laptop = 1;
@@ -15,4 +16,5 @@ message CreateLaptopResponse {
 
 service LaptopService {
     rpc CreateLaptop(CreateLaptopRequest) returns (CreateLaptopResponse){};
+    rpc SearchLaptop(FilterRequest) returns (stream Laptop) {};
 }

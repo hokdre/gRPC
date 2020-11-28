@@ -17,6 +17,19 @@ protoc -I=. --go_out=<destination dir message> --go_opt=paths=source_relative  -
 > --go_out=<destination dir> --go_opt=paths=source_relative konfigurasi message <br />
 > --go-grpc_out=<destination dir services> --go-grpc_opt=paths=source_relative konfigurasi service <br />
 
+# Summary Compile
+| Type | Proto | Client | Server |
+|------|------- | ----- | ------ |
+| Unary | rpc NamaMethod(Input) (Output) {}; | NamaMethod(ctx,*Input, ...) (Output, error) | NamaMethod(ctx,*Input, ...) (Output, error) |
+| Client Stream | rpc NamaMethod(Input) (stream Output) {}; | NamaMethod(ctx, *Input, ...) (StreamClient, error) | NamaMethod(*Input, StreamServer) error |
+<br />
+
+## What's Stream? <br />
+> | Properties| StreamClient | StreamServer |
+> | --------- | ------------ | ------------ |
+> | Interface Name | NamaService_NamaMethodClient | NamaService_NamaMethodServer |
+> | Signature | Recv() (*Output, error) | Send(*Ouput) error |
+
 # Reference 
 https://github.com/grpc
 https://github.com/grpc/grpc/blob/master/doc/statuscodes.md

@@ -11,7 +11,7 @@
    }
 
    service NamaService {
-       rpc NamaFunction(DataInputan) returns (DataOuput) {};
+       rpc NamaFunction(DataInputan) returns (stream DataOuput) {};
    }
    ```
 

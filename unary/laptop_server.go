@@ -58,3 +58,25 @@ func (service *LaptopServiceServer) CreateLaptop(
 
 	return response, nil
 }
+
+func (service *LaptopServiceServer) SearchLaptop(
+	req *pb.FilterRequest,
+	stream pb.LaptopService_SearchLaptopServer,
+) error {
+	log.Printf("receive request search laptop with brand : %s \n", req.GetBrand())
+
+	err := service.Store.Search(req, func(laptop *pb.Laptop) error {
+		if err := stream.Send(laptop); err != nil {
+			return err
+		}
+
+		log.Printf("sent laptop with id : %s \n", laptop.GetId())
+		return nil
+	})
+
+	if err != nil {
+		return status.Errorf(codes.Internal, "unxecpted error : %s", err)
+	}
+
+	return nil
+}
